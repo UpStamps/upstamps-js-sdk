@@ -14,6 +14,17 @@ describe("UpStamps", () => {
     const remote = await up.remote("new_one");
     console.log("remote = ", remote);
 
+    const test = await up.test("chat_color");
+    console.log("test = ", test);
+
+    const segment = await up.segment("goo", {
+      country: "Portugal",
+      client: "Microsoft Edge",
+      clientType: "mobile",
+    });
+
+    console.log("segment = ", segment);
+
     expect(1 + 1).toEqual(2);
   });
 });

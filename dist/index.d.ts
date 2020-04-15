@@ -16,5 +16,17 @@ declare class UpStamps {
         show: boolean;
         data?: undefined;
     }>;
+    test(name: string): Promise<{
+        show: boolean;
+        variant: string;
+        emitter: () => Promise<any>;
+    }>;
+    segment(name: string, params: {
+        country?: string;
+        client?: string;
+        clientType?: string;
+    }): Promise<{
+        show: boolean;
+    }>;
 }
 export default UpStamps;
