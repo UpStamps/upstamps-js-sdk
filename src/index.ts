@@ -21,7 +21,7 @@ class UpStamps {
     this.envKey = envKey;
   }
 
-  async flags(name: string) {
+  async flag(name: string) {
     const url = `${apiUrl}/${this.clientId}/${this.projectKey}/${this.envKey}/flags`;
 
     const response = await fetch(url);

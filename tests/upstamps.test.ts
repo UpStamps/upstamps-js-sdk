@@ -8,7 +8,7 @@ describe("UpStamps", () => {
       envKey: "guilty-professional",
     });
 
-    const flag = await up.flags("private_msg_2");
+    const flag = await up.flag("private_msg_2");
     console.log("flag = ", flag);
 
     const remote = await up.remote("new_one");
