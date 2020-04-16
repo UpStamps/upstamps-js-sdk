@@ -8,7 +8,19 @@ declare class UpStamps {
     projectKey: string;
     envKey: string;
     constructor({ clientId, projectKey, envKey }: Params);
-    flags(name: string): Promise<boolean>;
+    scopes(params: {
+        name?: string;
+        email: string;
+    }): Promise<{
+        error: boolean;
+        message: string;
+        success?: undefined;
+    } | {
+        error: boolean;
+        success: boolean;
+        message: string;
+    }>;
+    flag(name: string): Promise<boolean>;
     remote(name: string): Promise<{
         show: boolean;
         data: any;

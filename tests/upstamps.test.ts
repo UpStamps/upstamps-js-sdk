@@ -8,6 +8,8 @@ describe("UpStamps", () => {
       envKey: "guilty-professional",
     });
 
+
+
     const flag = await up.flag("private_msg_2");
     console.log("flag = ", flag);
 
@@ -24,6 +26,9 @@ describe("UpStamps", () => {
     });
 
     console.log("segment = ", segment);
+
+    const scopes = await up.scopes({ name: "john", email: "john222234@hotmail.com" });
+    console.log("scopes = ", scopes);
 
     expect(1 + 1).toEqual(2);
   });

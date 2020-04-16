@@ -62,20 +62,63 @@ var UpStamps = /*#__PURE__*/function () {
 
   var _proto = UpStamps.prototype;
 
-  _proto.flags = function flags(name) {
+  _proto.scopes = function scopes(params) {
     try {
       var _this2 = this;
 
-      var url = apiUrl + "/" + _this2.clientId + "/" + _this2.projectKey + "/" + _this2.envKey + "/flags";
-      return Promise.resolve(fetch(url)).then(function (response) {
-        return Promise.resolve(response.json()).then(function (_ref2) {
-          var flags = _ref2.flags;
-          var data = flags.map(function (item) {
-            return item.name;
+      return Promise.resolve(_catch(function () {
+        var url = apiUrl + "/" + _this2.clientId + "/" + _this2.projectKey + "/scopes/add";
+        return Promise.resolve(fetch(url, {
+          method: "POST",
+          headers: {
+            "content-type": "application/x-www-form-urlencoded"
+          },
+          body: JSON.stringify({
+            name: params.name,
+            email: params.email
+          })
+        })).then(function (response) {
+          return Promise.resolve(response.json()).then(function (data) {
+            if (data.response !== undefined && data.response.errors.length > 0) {
+              return {
+                error: true,
+                message: "Uniqueness violation. duplicate email value violates unique constraint"
+              };
+            } else {
+              return {
+                error: false,
+                success: true,
+                message: "Scope created"
+              };
+            }
           });
-          return data.indexOf(name) !== -1;
         });
-      });
+      }, function (e) {
+        throw e;
+      }));
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+  _proto.flag = function flag(name) {
+    try {
+      var _this4 = this;
+
+      return Promise.resolve(_catch(function () {
+        var url = apiUrl + "/" + _this4.clientId + "/" + _this4.projectKey + "/" + _this4.envKey + "/flags";
+        return Promise.resolve(fetch(url)).then(function (response) {
+          return Promise.resolve(response.json()).then(function (_ref2) {
+            var flags = _ref2.flags;
+            var data = flags.map(function (item) {
+              return item.name;
+            });
+            return data.indexOf(name) !== -1;
+          });
+        });
+      }, function (e) {
+        throw e;
+      }));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -83,25 +126,29 @@ var UpStamps = /*#__PURE__*/function () {
 
   _proto.remote = function remote(name) {
     try {
-      var _this4 = this;
+      var _this6 = this;
 
-      var url = apiUrl + "/" + _this4.clientId + "/" + _this4.projectKey + "/" + _this4.envKey + "/remotes"; //Response with the all the remotes flags
+      return Promise.resolve(_catch(function () {
+        var url = apiUrl + "/" + _this6.clientId + "/" + _this6.projectKey + "/" + _this6.envKey + "/remotes"; //Response with the all the remotes flags
 
-      return Promise.resolve(fetch(url)).then(function (response) {
-        return Promise.resolve(response.json()).then(function (_ref3) {
-          var remotes = _ref3.remotes;
-          var remote = remotes.filter(function (item) {
-            return item.name === name;
+        return Promise.resolve(fetch(url)).then(function (response) {
+          return Promise.resolve(response.json()).then(function (_ref3) {
+            var remotes = _ref3.remotes;
+            var remote = remotes.filter(function (item) {
+              return item.name === name;
+            });
+            var verifyRemote = remote.length > 0;
+            return verifyRemote ? {
+              show: true,
+              data: remote[0].data
+            } : {
+              show: false
+            };
           });
-          var verifyRemote = remote.length > 0;
-          return verifyRemote ? {
-            show: true,
-            data: remote[0].data
-          } : {
-            show: false
-          };
         });
-      });
+      }, function (e) {
+        throw e;
+      }));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -109,34 +156,38 @@ var UpStamps = /*#__PURE__*/function () {
 
   _proto.test = function test(name) {
     try {
-      var _this6 = this;
+      var _this8 = this;
 
-      var variantTypes = ["A", "B"];
-      var url = apiUrl + "/" + _this6.clientId + "/" + _this6.projectKey + "/" + _this6.envKey + "/testing";
-      return Promise.resolve(fetch(url)).then(function (response) {
-        return Promise.resolve(response.json()).then(function (_ref4) {
-          var ABTesting = _ref4.ABTesting;
-          var result = ABTesting.filter(function (item) {
-            return item.name === name;
+      return Promise.resolve(_catch(function () {
+        var variantTypes = ["A", "B"];
+        var url = apiUrl + "/" + _this8.clientId + "/" + _this8.projectKey + "/" + _this8.envKey + "/testing";
+        return Promise.resolve(fetch(url)).then(function (response) {
+          return Promise.resolve(response.json()).then(function (_ref4) {
+            var ABTesting = _ref4.ABTesting;
+            var result = ABTesting.filter(function (item) {
+              return item.name === name;
+            });
+            var show = result.length > 0;
+            var randomVariant = Math.floor(Math.random() * variantTypes.length);
+
+            var onEmitter = function onEmitter() {
+              return Promise.resolve(_catch(function () {
+                return Promise.resolve(emitterHandler(variantTypes[randomVariant], name, url));
+              }, function (e) {
+                return e;
+              }));
+            };
+
+            return {
+              show: show,
+              variant: variantTypes[randomVariant],
+              emitter: onEmitter
+            };
           });
-          var show = result.length > 0;
-          var randomVariant = Math.floor(Math.random() * variantTypes.length);
-
-          var onEmitter = function onEmitter() {
-            return Promise.resolve(_catch(function () {
-              return Promise.resolve(emitterHandler(variantTypes[randomVariant], name, url));
-            }, function (e) {
-              return e;
-            }));
-          };
-
-          return {
-            show: show,
-            variant: variantTypes[randomVariant],
-            emitter: onEmitter
-          };
         });
-      });
+      }, function (e) {
+        throw e;
+      }));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -144,25 +195,29 @@ var UpStamps = /*#__PURE__*/function () {
 
   _proto.segment = function segment(name, params) {
     try {
-      var _this8 = this;
+      var _this10 = this;
 
-      var url = apiUrl + "/" + _this8.clientId + "/" + _this8.projectKey + "/" + _this8.envKey + "/segment";
-      var query = queryBuilder({
-        name: name,
-        country: params.country,
-        client: params.client,
-        clientType: params.clientType
-      });
-      return Promise.resolve(fetch(url + "?" + query, {
-        method: "GET"
-      })).then(function (response) {
-        return Promise.resolve(response.json()).then(function (_ref5) {
-          var segment = _ref5.segment;
-          return {
-            show: segment.length > 0
-          };
+      return Promise.resolve(_catch(function () {
+        var url = apiUrl + "/" + _this10.clientId + "/" + _this10.projectKey + "/" + _this10.envKey + "/segment";
+        var query = queryBuilder({
+          name: name,
+          country: params.country,
+          client: params.client,
+          clientType: params.clientType
         });
-      });
+        return Promise.resolve(fetch(url + "?" + query, {
+          method: "GET"
+        })).then(function (response) {
+          return Promise.resolve(response.json()).then(function (_ref5) {
+            var segment = _ref5.segment;
+            return {
+              show: segment.length > 0
+            };
+          });
+        });
+      }, function (e) {
+        throw e;
+      }));
     } catch (e) {
       return Promise.reject(e);
     }
