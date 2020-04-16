@@ -113,7 +113,9 @@ var UpStamps = /*#__PURE__*/function () {
             var data = flags.map(function (item) {
               return item.name;
             });
-            return data.indexOf(name) !== -1;
+            return {
+              show: data.indexOf(name) !== -1
+            };
           });
         });
       }, function (e) {

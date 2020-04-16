@@ -20,7 +20,9 @@ declare class UpStamps {
         success: boolean;
         message: string;
     }>;
-    flag(name: string): Promise<boolean>;
+    flag(name: string): Promise<{
+        show: boolean;
+    }>;
     remote(name: string): Promise<{
         show: boolean;
         data: any;

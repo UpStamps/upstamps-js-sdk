@@ -61,7 +61,9 @@ class UpStamps {
       const { flags } = await response.json();
       const data = flags.map((item: { name: string }) => item.name);
 
-      return data.indexOf(name) !== -1;
+      return {
+        show: data.indexOf(name) !== -1,
+      };
     } catch (e) {
       throw e;
     }
