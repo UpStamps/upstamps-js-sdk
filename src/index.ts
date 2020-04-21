@@ -11,9 +11,9 @@ interface Params {
 }
 
 class UpStamps {
-  clientId: string;
-  projectKey: string;
-  envKey: string;
+  readonly clientId: string;
+  readonly projectKey: string;
+  readonly envKey: string;
 
   constructor({ clientId, projectKey, envKey }: Params) {
     this.clientId = clientId;
