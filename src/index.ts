@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 //Utils
 import { emitterHandler, queryBuilder } from "./functions";
 //Constants
-const apiUrl: string = "https://services.upstamps.com/api";
+const apiUrl = "https://services.upstamps.com/api";
 
 interface Params {
   clientId: string;
