@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import fetch from "node-fetch";
 
 //Emitter for A/B Testing
@@ -30,8 +32,8 @@ export const queryBuilder = (params: {}) => {
 
   return Object.keys(params)
     .filter(
-      key => params[key] !== undefined && params[key] && params[key] !== null
+      (key) => params[key] !== undefined && params[key] && params[key] !== null
     )
-    .map(key => esc(key) + "=" + esc(params[key]))
+    .map((key) => esc(key) + "=" + esc(params[key]))
     .join("&");
 };

@@ -2,28 +2,31 @@ import fetch from "node-fetch";
 //Utils
 import { emitterHandler, queryBuilder } from "./functions";
 //Constants
-const apiUrl: string = "https://services.upstamps.com/api";
+const apiUrl = "https://services.upstamps.com/api";
 
 interface Params {
   clientId: string;
   projectKey: string;
   envKey: string;
+  endpoint?: string;
 }
 
 class UpStamps {
   readonly clientId: string;
   readonly projectKey: string;
   readonly envKey: string;
+  readonly endpoint: string;
 
-  constructor({ clientId, projectKey, envKey }: Params) {
+  constructor({ clientId, projectKey, envKey, endpoint = apiUrl }: Params) {
     this.clientId = clientId;
     this.projectKey = projectKey;
     this.envKey = envKey;
+    this.endpoint = endpoint;
   }
 
   async scopes(params: { name?: string; email: string }) {
     try {
-      const url = `${apiUrl}/${this.clientId}/${this.projectKey}/scopes/add`;
+      const url = `${this.endpoint}/${this.clientId}/${this.projectKey}/scopes/add`;
       const response = await fetch(url, {
         method: "POST",
         headers: { "content-type": "application/x-www-form-urlencoded" },
@@ -55,7 +58,7 @@ class UpStamps {
 
   async flag(name: string) {
     try {
-      const url = `${apiUrl}/${this.clientId}/${this.projectKey}/${this.envKey}/flags`;
+      const url = `${this.endpoint}/${this.clientId}/${this.projectKey}/${this.envKey}/flags`;
 
       const response = await fetch(url);
       const { flags } = await response.json();
@@ -71,7 +74,7 @@ class UpStamps {
 
   async remote(name: string) {
     try {
-      const url = `${apiUrl}/${this.clientId}/${this.projectKey}/${this.envKey}/remotes`;
+      const url = `${this.endpoint}/${this.clientId}/${this.projectKey}/${this.envKey}/remotes`;
 
       //Response with the all the remotes flags
       const response = await fetch(url);
@@ -93,7 +96,7 @@ class UpStamps {
     try {
       const variantTypes = ["A", "B"];
 
-      const url = `${apiUrl}/${this.clientId}/${this.projectKey}/${this.envKey}/testing`;
+      const url = `${this.endpoint}/${this.clientId}/${this.projectKey}/${this.envKey}/testing`;
       const response = await fetch(url);
       const { ABTesting } = await response.json();
 
@@ -126,7 +129,7 @@ class UpStamps {
     params: { country?: string; client?: string; clientType?: string }
   ) {
     try {
-      const url = `${apiUrl}/${this.clientId}/${this.projectKey}/${this.envKey}/segment`;
+      const url = `${this.endpoint}/${this.clientId}/${this.projectKey}/${this.envKey}/segment`;
 
       const query = queryBuilder({
         name: name,

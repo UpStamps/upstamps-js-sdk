@@ -40,7 +40,7 @@ import UpStamps from "upstamps-js";
 let UpStampsInstance = new UpStamps({
   clientId: "xxxx-xxxx-xxx",
   projectKey: "xxxx-xxxx-xxx",
-  envKey: "xxxx-xxxx-xxx"
+  envKey: "xxxx-xxxx-xxx",
 });
 ```
 
@@ -54,7 +54,7 @@ import UpStamps from "upstamps-js";
 let UpStampsInstance = new UpStamps({
   clientId: "xxxx-xxxx-xxx",
   projectKey: "xxxx-xxxx-xxx",
-  envKey: "xxxx-xxxx-xxx"
+  envKey: "xxxx-xxxx-xxx",
 });
 
 //async/await
@@ -71,11 +71,11 @@ const MyFeature = async () => {
 //Promises
 const AnotherFeature = async () => {
   UpStampsInstance.flag("my_flag")
-    .then(flag => {
+    .then((flag) => {
       //flag.show
       //...code
     })
-    .catch(e => throw e);
+    .catch((e) => throw e);
 };
 ```
 
@@ -154,10 +154,59 @@ Notice: To use Segments it is necessary to integrate Scopes. See the Scope metho
 UpStampsInstance.segment("my_segment", {
   country: "Portugal",
   client: "Microsoft Edge",
-  clientType: "mobile"
+  clientType: "mobile",
 });
 
 /*
 Result: {show: true | false}
 */
 ```
+
+## Build
+
+---
+
+First clone the project from github:
+
+    git clone https://github.com/UpStamps/upstamps-js-sdk.git
+    cd upstamps-js-sdk
+
+Install the project dependencies:
+
+    yarn install
+
+Then, the project can be build by executing the build script via yarn. This will build the library from the source files and put them in the folder dist.
+
+    yarn build
+
+Run the project and listen for new changes
+
+    yarn start
+
+## Test
+
+---
+
+To execute tests for the library, install the project dependencies once:
+
+    yarn install
+
+Then, the tests can be executed:
+
+    yarn test
+
+## License
+
+Copyright (C) 2013-2020 Jos de Jong <wjosdejong@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
