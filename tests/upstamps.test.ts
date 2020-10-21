@@ -1,6 +1,7 @@
 import UpStamps from "../src";
 
-let up = new UpStamps({
+// This needs to be an active instance from the service API
+const up = new UpStamps({
   clientId: "5d3843d9-fd51-4f95-a49d-81e3833935c7",
   projectKey: "strict-lime",
   envKey: "thoughtful-copper",
@@ -12,6 +13,7 @@ describe("UpStamps features", () => {
       clientId: "5d3843d9-fd51-4f95-a49d-81e3833935c7",
       projectKey: "strict-lime",
       envKey: "thoughtful-copper",
+      endpoint: "https://services.upstamps.com/api",
     });
   });
 
