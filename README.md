@@ -40,7 +40,7 @@ import UpStamps from "upstamps-js";
 let UpStampsInstance = new UpStamps({
   clientId: "xxxx-xxxx-xxx",
   projectKey: "xxxx-xxxx-xxx",
-  envKey: "xxxx-xxxx-xxx"
+  envKey: "xxxx-xxxx-xxx",
 });
 ```
 
@@ -54,7 +54,7 @@ import UpStamps from "upstamps-js";
 let UpStampsInstance = new UpStamps({
   clientId: "xxxx-xxxx-xxx",
   projectKey: "xxxx-xxxx-xxx",
-  envKey: "xxxx-xxxx-xxx"
+  envKey: "xxxx-xxxx-xxx",
 });
 
 //async/await
@@ -71,11 +71,11 @@ const MyFeature = async () => {
 //Promises
 const AnotherFeature = async () => {
   UpStampsInstance.flag("my_flag")
-    .then(flag => {
+    .then((flag) => {
       //flag.show
       //...code
     })
-    .catch(e => throw e);
+    .catch((e) => throw e);
 };
 ```
 
@@ -154,7 +154,7 @@ Notice: To use Segments it is necessary to integrate Scopes. See the Scope metho
 UpStampsInstance.segment("my_segment", {
   country: "Portugal",
   client: "Microsoft Edge",
-  clientType: "mobile"
+  clientType: "mobile",
 });
 
 /*
