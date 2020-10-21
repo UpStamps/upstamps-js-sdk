@@ -2,12 +2,14 @@ interface Params {
     clientId: string;
     projectKey: string;
     envKey: string;
+    endpoint?: string;
 }
 declare class UpStamps {
     readonly clientId: string;
     readonly projectKey: string;
     readonly envKey: string;
-    constructor({ clientId, projectKey, envKey }: Params);
+    readonly endpoint: string;
+    constructor({ clientId, projectKey, envKey, endpoint }: Params);
     scopes(params: {
         name?: string;
         email: string;
